@@ -1,0 +1,46 @@
+CREATE USER supersapien@localhost ;
+SHOW GRANTS FOR supersapien@localhost;
+CREATE DATABASE educhatDB;
+USE educhatDB;
+CREATE TABLE `Tags` (
+  `tagID` int(11) NOT NULL AUTO_INCREMENT,
+  `tagName` varchar(255)  NOT NULL,
+  PRIMARY KEY (`tagID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+INSERT INTO `Tags` VALUES ('1', 'algorithm');
+INSERT INTO `Tags` VALUES ('2', 'geometry');
+INSERT INTO `Tags` VALUES ('3', 'physical');
+
+CREATE TABLE `Answers` (
+  `answerID` int(11) NOT NULL,
+  `answerStr` varchar(255) NOT NULL,
+  `result` tinyint(1) NOT NULL,
+  PRIMARY KEY (`answerID`)
+);
+INSERT INTO `Answers` VALUES ('1', 'Im superman', '1');
+INSERT INTO `Answers` VALUES ('1', 'Im handsome', '1');
+INSERT INTO `Answers` VALUES ('1', 'Im spiderman', '0');
+INSERT INTO `Answers` VALUES ('1', 'Im hulk', '1');
+
+CREATE TABLE `Groups` (
+  `groupID` int(11) NOT NULL AUTO_INCREMENT,
+  `groupStr` varchar(255) NOT NULL,
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+INSERT INTO `Groups` VALUES ('1', 'test1');
+INSERT INTO `Groups` VALUES ('2', 'test2');
+INSERT INTO `Groups` VALUES ('3', 'test3');
+
+CREATE TABLE `Questions` (
+  `questionID` int(11) NOT NULL AUTO_INCREMENT,
+  `questionStr` varchar(255)  NOT NULL,
+  `answerID` int(11) NOT NULL,
+  `groupID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`questionID`)
+  CONSTRAINT FK_QnA FOREIGN KEY (answerID) REFERENCES Answers(answerID)
+  CONSTRAINT FK_Q_Group FOREIGN KEY (groupID) REFERENCES Group(groupID)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+INSERT INTO `Questions` VALUES ('1', 'Who are you', '1','1');
+INSERT INTO `Questions` VALUES ('2', 'haha', '1','1');
+INSERT INTO `Questions` VALUES ('3', 'test F5', '2', '1');
+
+GRANT ALL PRIVILEGES ON educhatDB.* TO 'supersapien@localhost';
