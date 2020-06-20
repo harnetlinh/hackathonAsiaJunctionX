@@ -70,7 +70,7 @@ function handleMessage(sender_psid, received_message) {
 		// Create the payload for a basic text message, which
 		// will be added to the body of our request to the Send API
 		response = {
-			"text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+			"text": `${received_message}`
 		}
 	} else if (received_message.attachments) {
 		// Get the URL of the message attachment
