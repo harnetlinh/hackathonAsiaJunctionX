@@ -174,12 +174,12 @@ function sendQues(){
 		  {
 			"content_type":"text",
 			"title":"Red",
-			"payload":"<POSTBACK_PAYLOAD>",
+			"payload":"Red",
 			"image_url":"http://example.com/img/red.png"
 		  },{
 			"content_type":"text",
 			"title":"Green",
-			"payload":"<POSTBACK_PAYLOAD>",
+			"payload":"Green",
 			"image_url":"http://example.com/img/green.png"
 		  }
 		]
@@ -187,10 +187,10 @@ function sendQues(){
 	// Construct the message body
 	let request_body = {
 		"recipient": {
-			"messaging_type": "UPDATE",
 			"id": sender_psid
 		},
-		"message": content
+		"message": content,
+		"messaging_type": "UPDATE",
 	}
 
 	// Send the HTTP request to the Messenger Platform
@@ -201,7 +201,7 @@ function sendQues(){
 		"json": request_body
 	}, (err, res, body) => {
 		if (!err) {
-			// return true
+			console.log(res)
 			console.log("SUCCESSFUL")
 		} else {
 			console.log("FAIL")
