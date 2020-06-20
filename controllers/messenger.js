@@ -155,7 +155,7 @@ function callSendAPI(sender_psid, response) {
 		}
 	});
 }
-exports.sendTest() = (req,res)=>{
+exports.sendTest = (req,res)=>{
 	console.log("RUN SEND TEST")
 	if (sendQues())
 	{
