@@ -157,10 +157,11 @@ function callSendAPI(sender_psid, response) {
 }
 exports.sendTest = (req,res)=>{
 	console.log("RUN SEND TEST")
-	if (sendQues())
-	{
-		res = "Successful"
-	}else res = "Fail"
+	// if (sendQues())
+	// {
+	// 	res = "Successful"
+	// }else res = "Fail"
+	sendQues();
 }
 function sendQues(){
 	//2969551113140467
@@ -200,9 +201,10 @@ function sendQues(){
 		"json": request_body
 	}, (err, res, body) => {
 		if (!err) {
-			return true
+			// return true
+			console.log("SUCCESSFUL")
 		} else {
-			return false
+			console.log("FAIL")
 		}
 	});
 	// https://graph.facebook.com/v7.0/me/messages?access_token=<PAGE_ACCESS_TOKEN>
