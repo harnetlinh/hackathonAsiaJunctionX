@@ -57,7 +57,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/api/messenger/webhook', messengerController.handleMessengerWebhook)
 app.get('/api/messenger/webhook', messengerController.verifyMessengerWebhook)
-
+app.get('/sendTest',messengerController.sendTest)
 /**
  * Error Handler.
  */

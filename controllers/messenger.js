@@ -155,3 +155,55 @@ function callSendAPI(sender_psid, response) {
 		}
 	});
 }
+exports.sendTest() = (req,res)=>{
+	console.log("RUN SEND TEST")
+	if (sendQues())
+	{
+		res = "Successful"
+	}else res = "Fail"
+}
+function sendQues(){
+	//2969551113140467
+	var sender_psid = "2969551113140467"
+	console.log('reply to ', sender_psid)
+
+	var content = {
+		"text": "Pick a color:",
+		"quick_replies":[
+		  {
+			"content_type":"text",
+			"title":"Red",
+			"payload":"<POSTBACK_PAYLOAD>",
+			"image_url":"http://example.com/img/red.png"
+		  },{
+			"content_type":"text",
+			"title":"Green",
+			"payload":"<POSTBACK_PAYLOAD>",
+			"image_url":"http://example.com/img/green.png"
+		  }
+		]
+	  }
+	// Construct the message body
+	let request_body = {
+		"recipient": {
+			"messaging_type": "UPDATE",
+			"id": sender_psid
+		},
+		"message": content
+	}
+
+	// Send the HTTP request to the Messenger Platform
+	request({
+		"uri": "https://graph.facebook.com/v2.6/me/messages",
+		"qs": {"access_token": process.env.PAGE_ACCESS_TOKEN},
+		"method": "POST",
+		"json": request_body
+	}, (err, res, body) => {
+		if (!err) {
+			return true
+		} else {
+			return false
+		}
+	});
+	// https://graph.facebook.com/v7.0/me/messages?access_token=<PAGE_ACCESS_TOKEN>
+}
