@@ -66,12 +66,19 @@ function handleMessage(sender_psid, received_message) {
 	let response;
 
 	// Checks if the message contains text
-	if (received_message.text) {
+	if (received_message.text == 'what is area?') {
 		// Create the payload for a basic text message, which
 		// will be added to the body of our request to the Send API
 		response = {
-			"text": `${received_message}`
+			"text": "E=mc2 is that correct?"
 		}
+	}
+	else if(received_message.text == 'what is math?')
+	{
+		response ={
+			"text": "i dont know"
+		}
+	
 	} else if (received_message.attachments) {
 		// Get the URL of the message attachment
 		let attachment_url = received_message.attachments[0].payload.url;
