@@ -59,7 +59,8 @@ exports.verifyMessengerWebhook = (req, res) => {
 		}
 	}
 }
-exports.sendTest = (req, res){
+exports.sendTest() = ()=>{
+	console.log("RUN SEND TEST")
 	if (sendQues())
 	{
 		res = "Successful"
