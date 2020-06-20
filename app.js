@@ -33,6 +33,7 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const messengerController = require('./controllers/messenger');
 
 /**
  * API keys and Passport configuration.
@@ -77,34 +78,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: process.env.SESSION_SECRET,
-  cookie: { maxAge: 1209600000 }, // two weeks in milliseconds
-  store: new MongoStore({
-    url: process.env.MONGODB_URI,
-    autoReconnect: true,
-  })
+	secret: process.env.SESSION_SECRET,
+	cookie: {maxAge: 1209600000}, // two weeks in milliseconds
+	store: new MongoStore({
+		url: process.env.MONGODB_URI,
+		autoReconnect: true,
+	})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
-app.use((req, res, next) => {
-  if (req.path === '/api/upload') {
-    // Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
-    next();
-  } else {
-    lusca.csrf()(req, res, next);
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.path === '/api/upload') {
+//     // Multer multipart/form-data handling needs to occur before the Lusca CSRF check.
+//     next();
+//   } else {
+//     lusca.csrf()(req, res, next);
+//   }
+// });
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));
 app.disable('x-powered-by');
 app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
+	res.locals.user = req.user;
+	next();
 });
 app.use((req, res, next) => {
-  // After successful login, redirect back to the intended page
-  if (!req.user
+	// After successful login, redirect back to the intended page
+	if (!req.user
     && req.path !== '/login'
     && req.path !== '/signup'
     && !req.path.match(/^\/auth/)
@@ -234,24 +235,34 @@ app.get('/auth/steam', passport.authorize('openid', { state: 'SOME STATE' }));
 app.get('/auth/steam/callback', passport.authorize('openid', { failureRedirect: '/api' }), (req, res) => {
   res.redirect(req.session.returnTo);
 });
-app.get('/auth/pinterest', passport.authorize('pinterest', { scope: 'read_public write_public' }));
-app.get('/auth/pinterest/callback', passport.authorize('pinterest', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect('/api/pinterest');
+app.get('/auth/pinterest', passport.authorize('pinterest', {scope: 'read_public write_public'}));
+app.get('/auth/pinterest/callback', passport.authorize('pinterest', {failureRedirect: '/login'}), (req, res) => {
+	res.redirect('/api/pinterest');
 });
-app.get('/auth/quickbooks', passport.authorize('quickbooks', { scope: ['com.intuit.quickbooks.accounting'], state: 'SOME STATE' }));
-app.get('/auth/quickbooks/callback', passport.authorize('quickbooks', { failureRedirect: '/login' }), (req, res) => {
-  res.redirect(req.session.returnTo);
+app.get('/auth/quickbooks', passport.authorize('quickbooks', {
+	scope: ['com.intuit.quickbooks.accounting'],
+	state: 'SOME STATE'
+}));
+app.get('/auth/quickbooks/callback', passport.authorize('quickbooks', {failureRedirect: '/login'}), (req, res) => {
+	res.redirect(req.session.returnTo);
 });
+
+/**
+ * Messenger API
+ */
+
+app.post('/api/messenger/webhook', messengerController.handleMessengerWebhook)
+app.get('/api/messenger/webhook', messengerController.verifyMessengerWebhook)
 
 /**
  * Error Handler.
  */
 if (process.env.NODE_ENV === 'development') {
-  // only use in development
-  app.use(errorHandler());
+	// only use in development
+	app.use(errorHandler());
 } else {
-  app.use((err, req, res, next) => {
-    console.error(err);
+	app.use((err, req, res, next) => {
+		console.error(err);
     res.status(500).send('Server Error');
   });
 }
