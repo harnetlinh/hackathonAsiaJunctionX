@@ -184,6 +184,7 @@ function sendQues(){
 	// Construct the message body
 	let request_body = {
 		"recipient": {
+			"messaging_type": "UPDATE",
 			"id": sender_psid
 		},
 		"message": content
@@ -197,9 +198,9 @@ function sendQues(){
 		"json": request_body
 	}, (err, res, body) => {
 		if (!err) {
-			console.log('message sent!')
+			return true
 		} else {
-			console.error("Unable to send message:" + err);
+			return false
 		}
 	});
 	// https://graph.facebook.com/v7.0/me/messages?access_token=<PAGE_ACCESS_TOKEN>
