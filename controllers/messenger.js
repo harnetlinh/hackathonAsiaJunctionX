@@ -20,10 +20,9 @@ exports.handleMessengerWebhook = (req, res) => {
 		res.sendStatus(404);
 	}
 }
-
 exports.verifyMessengerWebhook = (req, res) => {
 	// Your verify token. Should be a random string.
-	let VERIFY_TOKEN = "<YOUR_VERIFY_TOKEN>"
+	let VERIFY_TOKEN = process.env.MESSENGER_WEBHOOK_TOKEN
 
 	// Parse the query params
 	let mode = req.query['hub.mode'];
