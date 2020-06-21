@@ -1,17 +1,14 @@
 {
-  "name": "hackathon-starter",
+  "name": "EduChat",
   "version": "6.0.0",
-  "description": "A boilerplate for Node.js web applications",
+  "description": "EduChat Server",
   "repository": {
 	"type": "git",
-	"url": "https://github.com/sahat/hackathon-starter.git"
+	"url": "https://github.com/harnetlinh/hackathonAsiaJunctionX.git"
   },
   "license": "MIT",
-  "author": "Sahat Yalkabov",
-  "contributors": [
-	"Yashar Fakhari (https://github.com/YasharF)"
-  ],
-  "scripts": {
+  "author": "SuperDuperSapien",
+    "scripts": {
 	"postinstall": "npm rebuild node-sass",
 	"start": "node app.js",
 	"dev": "nodemon app.js",
